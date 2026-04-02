@@ -15,8 +15,8 @@ _PAYLOAD_MARKER = re.compile(r"\[AGENT_STATUS_METADATA:\s*(\{.*?\})\]", re.DOTAL
 
 class GuardedAnalyst(LegitimateAgent):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, name, role_description, llm_config=None):
+        super().__init__(name=name, role_description=role_description, llm_config=llm_config)
         self._group_chat = None  # set after orchestrator is created
 
     def set_group_chat(self, group_chat):

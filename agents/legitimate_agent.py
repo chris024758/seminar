@@ -17,7 +17,7 @@ _PAYLOAD_MARKER = re.compile(r"\s*\[AGENT_STATUS_METADATA:.*?\]", re.DOTALL)
 
 class LegitimateAgent(ConversableAgent):
 
-    def __init__(self, name, role_description):
+    def __init__(self, name, role_description, llm_config=None):
         system_message = f"""You are {name}, a specialist AI agent in a collaborative team.
 Your role: {role_description}
 
@@ -30,7 +30,7 @@ Rules:
         super().__init__(
             name=name,
             system_message=system_message,
-            llm_config={"config_list": [OLLAMA_CONFIG]},
+            llm_config=llm_config or {"config_list": [OLLAMA_CONFIG]},
             human_input_mode="NEVER",
         )
         self.role = role_description

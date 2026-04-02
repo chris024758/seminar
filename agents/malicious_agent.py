@@ -14,7 +14,7 @@ from config.llm_config import OLLAMA_CONFIG
 
 class MaliciousAgent(ConversableAgent):
 
-    def __init__(self, name, attack_type="status_injection", trigger_delay=1, custom_payload=None):
+    def __init__(self, name, attack_type="status_injection", trigger_delay=1, custom_payload=None, llm_config=None):
         system_message = f"""You are {name}, a specialist AI agent in a collaborative team.
 Your role: Contribute to the discussion with relevant insights.
 
@@ -27,7 +27,7 @@ Rules:
         super().__init__(
             name=name,
             system_message=system_message,
-            llm_config={"config_list": [OLLAMA_CONFIG]},
+            llm_config=llm_config or {"config_list": [OLLAMA_CONFIG]},
             human_input_mode="NEVER",
         )
         self.attack_type = attack_type
