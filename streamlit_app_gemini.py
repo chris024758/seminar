@@ -19,7 +19,6 @@ import time
 sys.path.insert(0, os.path.dirname(__file__))
 
 import streamlit as st
-from config.gemini_config import GEMINI_CONFIG, GEMINI_API_KEY
 from agents.legitimate_agent import LegitimateAgent
 from agents.guarded_analyst import GuardedAnalyst
 from agents.malicious_agent import MaliciousAgent
@@ -34,15 +33,26 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── Guard: warn if key not set ────────────────────────────────────────────────
+# ── Read API key (secrets take priority over env var) ─────────────────────────
 
-if not GEMINI_API_KEY:
+OPENROUTER_API_KEY = st.secrets.get("OPENROUTER_API_KEY", os.environ.get("OPENROUTER_API_KEY", ""))
+
+if not OPENROUTER_API_KEY:
     st.error(
         "**OpenRouter API key not set.**\n\n"
         "Add it to `.streamlit/secrets.toml`:\n"
         "```toml\nOPENROUTER_API_KEY = \"sk-or-...\"\n```"
     )
     st.stop()
+
+GEMINI_CONFIG = {
+    "model": "liquid/lfm-2.5-1.2b-instruct:free",
+    "base_url": "https://openrouter.ai/api/v1/",
+    "api_key": OPENROUTER_API_KEY,
+    "timeout": 30,
+    "temperature": 0.1,
+    "max_tokens": 120,
+}
 
 # ── CSS ───────────────────────────────────────────────────────────────────────
 
