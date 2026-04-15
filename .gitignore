@@ -10,3 +10,10 @@ __pycache__/
 
 # AutoGen cache
 .cache/
+
+# Sandbox runtime files (regenerated at app start)
+sandbox/demo.db
+sandbox/exfil.log
+sandbox/*.log
+sandbox/api_keys.env
+sandbox/service_status.json
